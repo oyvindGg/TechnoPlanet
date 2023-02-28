@@ -1,0 +1,11 @@
+.header_logo {
+	 width: 400px;
+	 display: block;
+}
+
+footer {
+	 background-color: #121212;
+	 color: #e2e2e2;
+	 padding: 20px;
+	 text-align: center;
+}
