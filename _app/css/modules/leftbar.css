@@ -1,0 +1,10 @@
+.left {
+	 position: fixed;
+	 top: 0;
+	 left: 0;
+	 width: 400px;
+	 height: 100%;
+	 background: #2c2c2c;
+	 z-index: 1;
+}
+
