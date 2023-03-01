@@ -1,11 +1,16 @@
 .header_logo {
 	 width: 400px;
-	 display: block;
+}
+
+.header__logo--inverted {
+	width: 400px;
+	display: none;
+	z-index: 100;
 }
 
 footer {
-	 background-color: #121212;
-	 color: #e2e2e2;
-	 padding: 20px;
-	 text-align: center;
+	background-color: #121212;
+	color: #e2e2e2;
+	padding: 20px;
+	text-align: center;
 }

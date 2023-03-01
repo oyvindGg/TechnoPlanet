@@ -1,0 +1,82 @@
+.search-container {
+	position: relative;
+	display: inline-block;
+	height: 100px;
+	width: 95%;
+	padding: 10px;
+	/* background: transparent url("/assets/worldmap.png") center center no-repeat; */
+}
+
+.search-container input[type=text] {
+	position: absolute;
+	top: 50%;
+	left: 40%;
+	transform: translate(-50%, -50%);
+	padding: 5px;
+	color: #cccccc;
+	background-color: #cccccc00;
+	font-size: 22px;
+	border: none;
+	outline: none;
+}
+
+.search-button {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: auto;
+	border: none;
+	outline: none;
+	background: transparent url("/assets/searchButton.png") center center no-repeat;
+	cursor: pointer;
+	transition: background-image 0.2s ease-in-out;
+}
+
+.search-button::before {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) rotate(45deg);
+	width: 16px;
+	height: 2px;
+	transition: transform 0.2s ease-in-out;
+}
+
+.search-button:hover,
+.search-button:active {
+	background-image: url("/assets/searchButtonHover.png");
+}
+
+.search-button:hover::before,
+.search-button:active::before {
+	transform: translate(-50%, -50%) rotate(225deg);
+}
+
+.search-button::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) rotate(45deg);
+	width: 16px;
+	height: 2px;
+	transition: transform 0.2s ease-in-out;
+	opacity: 0;
+}
+
+.search-button:hover::after,
+.search-button:active::after {
+	transform: translate(-50%, -50%) rotate(-135deg);
+	opacity: 1;
+}
+
+.search-button {
+	background-size: contain;
+	background-position: center;
+	width: 50px;
+}
