@@ -11,20 +11,18 @@ export default function eventSearch() {
     const baseUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?';
     const apiKey = clientID;
     const city = cityInput.value;
-    const subGenreId = 'KZFzniwnSyZfZ7v7nJ'; // Endre denne verdien til ønsket subGenreId
-    const url = 
-      `${baseUrl}
-      city=${city}
-      &classificationId=${subGenreId}
-      &apikey=${apiKey}`;
-  
+    const genreId = 'KnvZfZ7vAvF'; // Endre denne verdien til ønsket genreId
+    const url = `${baseUrl}city=${city}&classificationId=${genreId}&apikey=${apiKey}`;
+
+	console.log(url);
+
     fetch(url)
     .then((response) => response.json())
     .then((data) => {
       resultsContainer.innerHTML = '';
       let events = data._embedded.events;
       
-      events = events.filter((event) => event.classifications[0].classificationId === subGenreId);
+      events = events.filter((event) => event.classifications[0].classificationId === genreId);
 
       events.sort((a, b) => a.classifications[0].segment.name.localeCompare(b.classifications[0].segment.name));
       
@@ -62,5 +60,5 @@ export default function eventSearch() {
   };
   
   const searchForm = document.querySelector('#search-form');
-  searchForm.addEventListener('submit', handleSearchSubmit);
+  searchForm.addEventListener('#search-button', handleSearchSubmit);
 }
