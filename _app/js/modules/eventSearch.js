@@ -1,8 +1,12 @@
 import { clientID } from "../env.js";
 
-export default function eventSearch() {
+const genreId = 'KnvZfZ7vAvF';
 
-  const handleSearchSubmit = (event) => {
+export default function eventSearch() {
+  const searchForm = document.querySelector('#search-form');
+  searchForm.addEventListener('submit', handleSearchSubmit);
+
+  async function handleSearchSubmit(event) {
     event.preventDefault();
 
     const cityInput = document.querySelector('#city-input');
@@ -11,22 +15,23 @@ export default function eventSearch() {
     const baseUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?';
     const apiKey = clientID;
     const city = cityInput.value;
-    const genreId = 'KnvZfZ7vAvF'; // Endre denne verdien til ønsket genreId
-    const url = `${baseUrl}city=${city}&classificationId=${genreId}&apikey=${apiKey}`;
 
-	console.log(url);
+    const url = `${baseUrl}city=${city}&genreId=${genreId}&apikey=${apiKey}`;
 
-    fetch(url)
-    .then((response) => response.json())
-    .then((data) => {
-      resultsContainer.innerHTML = '';
-      let events = data._embedded.events;
-      
-      events = events.filter((event) => event.classifications[0].classificationId === genreId);
+    console.log(url);
 
-      events.sort((a, b) => a.classifications[0].segment.name.localeCompare(b.classifications[0].segment.name));
-      
-      events.forEach((event) => {
+    const response = await fetch(url);
+    const result = await response.json();
+
+    const eventsArray = result._embedded ? result._embedded.events : [];
+
+    console.log(eventsArray);
+
+    resultsContainer.innerHTML = '';
+
+    eventsArray.filter((event) => event.classifications[0].classificationId === genreId)
+      .sort((a, b) => a.classifications[0].segment.name.localeCompare(b.classifications[0].segment.name))
+      .forEach((event) => {
         const name = event.name;
         const dateStr = event.dates.start.localDate;
         const dateArr = dateStr.split('-');
@@ -35,30 +40,25 @@ export default function eventSearch() {
         const imageUrl = event.images.find((image) => image.width > 500)?.url;
         const ticketUrl = event.url;
         const availableTickets = event.dates.status.code === 'onsale' ? 'Available tickets!' : 'Tickets not yet on sale';
-        
+
         const resultItem = document.createElement('div');
         resultItem.classList.add('result-item');
         resultItem.innerHTML = `
-        <a class="result-details__id" href="event.html?id=${event.id}">
-          <div class="result-image">
-            <img src="${imageUrl}" alt="${name}">
-          </div>
-          <div class="result-details">
-            <h2 class="result-details__name">${name}</h2>
-            <p class="result-details__date">When: ${date}</p>
-            <p class="result-details__venue">Venue: ${venue}</p>
-            <p class="result-details__tickets">${availableTickets}</p>
-            <a class="result-details__button" href="${ticketUrl}" target="_blank">Buy Tickets</a>
-          </div>
-        </a>
+          <a class="result-details__id" href="event.html?id=${event.id}">
+            <div class="result-image">
+              <img src="${imageUrl}" alt="${name}">
+            </div>
+            <div class="result-details">
+              <h2 class="result-details__name">${name}</h2>
+              <p class="result-details__date">When: ${date}</p>
+              <p class="result-details__venue">Venue: ${venue}</p>
+              <p class="result-details__tickets">${availableTickets}</p>
+              <a class="result-details__button" href="${ticketUrl}" target="_blank">Buy Tickets</a>
+            </div>
+          </a>
         `;
-        
+
         resultsContainer.appendChild(resultItem);
       });
-    })
-    .catch((error) => console.error(error));
   };
-  
-  const searchForm = document.querySelector('#search-form');
-  searchForm.addEventListener('#search-button', handleSearchSubmit);
 }
