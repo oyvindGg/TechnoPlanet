@@ -13,8 +13,8 @@ main {
 	display: grid;
 	grid-template-columns: repeat(5, 1fr);
 	grid-template-rows: repeat(3, 1fr);
-	grid-column-gap: 0px;
-	grid-row-gap: 0px;
+	grid-column-gap: 5px;
+	grid-row-gap: 5px;
 	margin: 1rem;
 }
 
