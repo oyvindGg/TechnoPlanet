@@ -1,102 +1,57 @@
-.results-container {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-	grid-gap: 2rem;
-}
-
-.result-item {
-	background-color: transparent;
-	border-radius: 5px;
-	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
-	overflow: hidden;
-	transition: all 300ms ease-in-out;
+.event-card {
+	background-color: #292929;
+	color: white;
+	border-radius: 0.5rem;
+	padding: 1rem;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.result-item:hover {
-	transform: translateY(-5px);
-	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+.event-card__image {
+	background-size: cover;
+	background-position: center;
+	height: 8rem;
+	border-radius: 0.5rem;
 }
 
-.result-item__image {
-	width: 100%;
-	height: 200px;
-	object-fit: cover;
-}
-
-.result-image img {
-	height: 200px;
-	width: 100%;
-	object-fit: cover;
-}
-
-.result-details {
-	padding: 20px;
-	background-color: #fff;
-	border-radius: 5px;
+.event-card__details {
+	margin-top: 1rem;
 	display: flex;
 	flex-direction: column;
-	justify-content: flex-start;
-	flex-grow: 1;
 }
 
-.result-details__id {
-  text-decoration: none;
+.event-card__name {
+	font-size: 1.2rem;
+	font-weight: bold;
+	margin-bottom: 0.5rem;
 }
 
-.result-details__name {
-	margin: 0 0 1rem 0;
-	font-size: 1.24rem;
-	font-weight: 700;
-	color: #222;
-	font-family: 'Prata', serif;
+.event-card__date,
+.event-card__venue,
+.event-card__tickets {
+	margin: 0.5rem 0;
 }
 
-.result-details__date {
-	margin: 0 0 10px;
-	font-size: 16px;
-	font-weight: 400;
-	color: #666;
-}
-
-.result-details__venue {
-	margin: 0 0 10px;
-	font-size: 16px;
-	font-weight: 400;
-	color: #666;
-}
-
-.result-details__tickets {
-	margin: 0 0 10px;
-	font-size: 16px;
-	font-weight: 400;
-	color: #666;
-}
-
-.result-details__category {
-	margin: 0 0 10px;
-	font-size: 16px;
-	font-weight: 400;
-	color: #666;
-}
-
-.result-details__button {
-	display: inline-block;
-	margin-top: auto;
-	padding: 10px 20px;
-	background-color: #026cdf;
-	border-radius: 5px;
-	color: #fff;
-	font-size: 16px;
-	font-weight: 600;
-	text-decoration: none;
-	transition: background-color 0.2s ease-in-out;
+.event-card__button {
+	background-color: #6d6d6d;
+	border: none;
+	color: white;
+	padding: 0.5rem 1rem;
+	border-radius: 0.5rem;
+	cursor: pointer;
 	text-align: center;
+	text-decoration: none;
+	margin-top: auto;
 }
 
-.result-details__button:hover {
-	background-color: #014791;
+.event-card__button:hover {
+	background-color: #919191;
 }
 
+/* Set hover effect for event cards */
+.event-card:hover {
+	transform: translateY(-0.2rem);
+	box-shadow: 0 8px
+}
