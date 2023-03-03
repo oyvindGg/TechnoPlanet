@@ -1,64 +1,73 @@
-import { clientID } from "../env.js";
+import { clientID } from '../env.js';
 
-const genreId = 'KnvZfZ7vAvF';
 
-export default function eventSearch() {
-  const searchForm = document.querySelector('#search-form');
-  searchForm.addEventListener('submit', handleSearchSubmit);
+// Function to render events as cards
+export default function renderEvents(events) {
+	const searchForm = document.querySelector('#search-form');
+	const cityInput = document.querySelector('#city-input');
+	const resultsContainer = document.querySelector('#results-container');
 
-  async function handleSearchSubmit(event) {
-    event.preventDefault();
+  	resultsContainer.innerHTML = '';
+		if (events.length === 0) {
+		resultsContainer.innerHTML = '<p>No events found</p>';
+	};
 
-    const cityInput = document.querySelector('#city-input');
-    const resultsContainer = document.querySelector('#results-container');
+  events.forEach((event) => {
+		const imageUrl = event.images.find((image) => image.width > 500)?.url;
+		const name = event.name;
+		const date = new Date(event.dates.start.localDate).toLocaleDateString('en-US', {
+			day: 'numeric',
+			month: 'short',
+			year: 'numeric'
+		});
+		const venue = event._embedded.venues[0].name;
+		const availableTickets = `Tickets: ${event.dates.status.code === 'offsale' ? 'Sold Out' : 'Available'}`;
+		const ticketUrl = event.url;
 
-    const baseUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?';
-    const apiKey = clientID;
-    const city = cityInput.value;
-
-    const url = `${baseUrl}city=${city}&genreId=${genreId}&apikey=${apiKey}`;
-
-    console.log(url);
-
-    const response = await fetch(url);
-    const result = await response.json();
-
-    const eventsArray = result._embedded ? result._embedded.events : [];
-
-    console.log(eventsArray);
-
-    resultsContainer.innerHTML = '';
-
-    eventsArray.filter((event) => event.classifications[0].classificationId === genreId)
-      .sort((a, b) => a.classifications[0].segment.name.localeCompare(b.classifications[0].segment.name))
-      .forEach((event) => {
-        const name = event.name;
-        const dateStr = event.dates.start.localDate;
-        const dateArr = dateStr.split('-');
-        const date = `${dateArr[2]}.${dateArr[1]}.${dateArr[0]}`;
-        const venue = event._embedded.venues[0].name;
-        const imageUrl = event.images.find((image) => image.width > 500)?.url;
-        const ticketUrl = event.url;
-        const availableTickets = event.dates.status.code === 'onsale' ? 'Available tickets!' : 'Tickets not yet on sale';
-
-        const resultItem = document.createElement('div');
-        resultItem.classList.add('result-item');
-        resultItem.innerHTML = `
-          <a class="result-details__id" href="event.html?id=${event.id}">
-            <div class="result-image">
-              <img src="${imageUrl}" alt="${name}">
-            </div>
-            <div class="result-details">
-              <h2 class="result-details__name">${name}</h2>
-              <p class="result-details__date">When: ${date}</p>
-              <p class="result-details__venue">Venue: ${venue}</p>
-              <p class="result-details__tickets">${availableTickets}</p>
-              <a class="result-details__button" href="${ticketUrl}" target="_blank">Buy Tickets</a>
-            </div>
-          </a>
-        `;
-
-        resultsContainer.appendChild(resultItem);
-      });
-  };
+		const eventCard = `
+			<div class="event-card">
+			<div class="event-card__image" style="background-image: url(${imageUrl})"></div>
+			<div class="event-card__details">
+				<h2 class="event-card__name">${name}</h2>
+				<p class="event-card__date">When: ${date}</p>
+				<p class="event-card__venue">Venue: ${venue}</p>
+				<p class="event-card__tickets">${availableTickets}</p>
+				<a class="event-card__button" href="${ticketUrl}" target="_blank">Buy Tickets</a>
+			</div>
+			</div>
+		`;
+		resultsContainer.insertAdjacentHTML('beforeend', eventCard);
+  	});
+  
+  // Function to fetch events from Ticketmaster API and filter by genre
+  async function filterEvents(city, genreId) {
+	 const baseUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?';
+	 const apiKey = clientID;
+	 const url = `${baseUrl}city=${city}&genreId=${genreId}&apikey=${apiKey}`;
+  
+	 try {
+		const response = await fetch(url);
+		const result = await response.json();
+		const eventsArray = result._embedded.events;
+  
+		const filteredEvents = eventsArray.filter((event) => {
+		  return event.classifications.some((classification) => classification.segment.name === 'Music');
+		});
+  
+		return filteredEvents;
+		 } catch (error) {
+		console.log(error)};
+  
+		console.log(url)
+		// Event listener for search form submit
+		searchForm.addEventListener('submit', async (event) => {
+		  event.preventDefault();
+		
+		  const city = cityInput.value.trim();
+		  const genreId = 'KnvZfZ7vAvF'; // Dance/Electronic genre ID
+		
+		  const filteredEvents = await filterEvents(city, genreId);
+		  renderEvents(filteredEvents);
+		});
+	}
 }
