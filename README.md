@@ -1,6 +1,6 @@
 # TechnoPlanet
 
-School project using the Ticketmaster API to filter the dance/elektronika genre based on location.
+School project using the Ticketmaster Discovery v2.0 API to filter the dance/elektronika genre based on location.
 
 ## Deployment
 
