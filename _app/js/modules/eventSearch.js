@@ -9,7 +9,7 @@ export default function eventSearch() {
   function renderEvents(events) {
     resultsContainer.innerHTML = '';
     if (events.length === 0) {
-      resultsContainer.innerHTML = '<p>No events found</p>';
+      resultsContainer.innerHTML = '<p class="no_events">No events found</p>';
       return;
     }
 
