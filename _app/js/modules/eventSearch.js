@@ -1,11 +1,43 @@
 import { clientID } from '../env.js';
 
 export default function eventSearch() {
-  const searchForm = document.querySelector('#search-form');
-  const cityInput = document.querySelector('#city-input');
-  const resultsContainer = document.querySelector('#results-container');
-
-  // Function to render events as cards
+	const searchForm = document.querySelector('#search-form');
+	const cityInput = document.querySelector('#city-input');
+	const resultsContainer = document.querySelector('#results-container');
+	
+	// Function to fetch events from Ticketmaster API and filter by genre
+	async function filterEvents(city, genreId) {
+	  const baseUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?';
+	  const apiKey = clientID;
+	  const url = `${baseUrl}city=${city}&genreId=${genreId}&apikey=${apiKey}`;
+	
+	  try {
+		 const response = await fetch(url);
+		 const result = await response.json();
+		 const eventsArray = result._embedded.events;
+	
+		 const filteredEvents = eventsArray.filter((event) => {
+			return event.classifications.some((classification) => classification.segment.name === 'Music');
+		 });
+	
+		 return filteredEvents;
+	  } catch (error) {
+		 console.log(error);
+	  }
+	}
+	
+	// Event listener for search form submit
+	searchForm.addEventListener('submit', async (event) => {
+	  event.preventDefault();
+ 
+	  const city = cityInput.value.trim();
+	  const genreId = 'KnvZfZ7vAvF'; // Dance/Electronic genre ID
+ 
+	  const filteredEvents = await filterEvents(city, genreId);
+	  renderEvents(filteredEvents);
+	});
+	
+	// Function to render events as cards
   function renderEvents(events) {
     resultsContainer.innerHTML = '';
     if (events.length === 0) {
@@ -42,35 +74,5 @@ export default function eventSearch() {
     });
   }
 
-  // Function to fetch events from Ticketmaster API and filter by genre
-  async function filterEvents(city, genreId) {
-    const baseUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?';
-    const apiKey = clientID;
-    const url = `${baseUrl}city=${city}&genreId=${genreId}&apikey=${apiKey}`;
 
-    try {
-      const response = await fetch(url);
-      const result = await response.json();
-      const eventsArray = result._embedded.events;
-
-      const filteredEvents = eventsArray.filter((event) => {
-        return event.classifications.some((classification) => classification.segment.name === 'Music');
-      });
-
-      return filteredEvents;
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  // Event listener for search form submit
-  searchForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
-
-    const city = cityInput.value.trim();
-    const genreId = 'KnvZfZ7vAvF'; // Dance/Electronic genre ID
-
-    const filteredEvents = await filterEvents(city, genreId);
-    renderEvents(filteredEvents);
-  });
 }
