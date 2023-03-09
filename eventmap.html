@@ -5,6 +5,8 @@
 	<meta name="viewport" content="width=device-width">
 	<title>Techno Planet</title>
 	<link rel="icon" type="image/x-icon" href="./assets/faviconWhite.png">
+	<link href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" rel="stylesheet">
+	<script src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
 	<link rel="stylesheet" href="./_app/css/main.css">
 	<script type="module" src="./_app/js/main.js"></script>
 </head>
@@ -12,18 +14,16 @@
 <body>
 	<main>
 			<aside class="left">
-				<img src="./assets/logo.png" alt="techno planet logo" class="header_logo">
+				<a href="./index.html"><img src="./assets/logo.png" alt="techno planet logo" class="header_logo"></a>
 
 				<form id="search-form" class="search-container">
 					<input type="text" id="city-input" placeholder="Enter Your City..">
 					<button id="search-button" class="search-button" type="submit"></button>
 				</form>
-
-				<a href="./eventmap.html"><img src="./assets/worldmap.png" alt="worldmap" class="worldmap"></a>
 			</aside>
 
 			<section class="right">
-				<div class="results-container" id="results-container"></div>
+				<div id="map"></div>
 			</section>
 	</main>
 
