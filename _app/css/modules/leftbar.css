@@ -5,7 +5,8 @@
 .worldmap {
 	position: absolute;
 	width: 80%;
-	overflow: hidden;
 	border-radius: 5px;
 	bottom: 10px;
+	left: 20px;
+	z-index: 2;
 }
