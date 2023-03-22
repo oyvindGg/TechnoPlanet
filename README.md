@@ -1,4 +1,6 @@
-# TechnoPlanet
+<p align="center">
+    <img width="500" src="https://user-images.githubusercontent.com/110482909/227036661-f877104c-78ed-4bf9-aab2-f4d74a6d1768.png">
+</p>
 
 School project using the Ticketmaster Discovery v2.0 API to filter the dance/elektronika genre based on location.
 
