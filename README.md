@@ -13,7 +13,3 @@ The project is deployed on [Netlify](https://technoplanet.netlify.app) and the s
 - HTML
 - CSS
 - JavaScript
-
-## Additional information
-
-For any questions or issues, please open an issue on the [GitHub repository](https://github.com/0yvz/TechnoPlanet/issues) or contact the author directly.
